@@ -58,4 +58,6 @@
         <item>/apex/com.android.art/javalib/core-libart.jar</item>
     </string-array>
 
+    <!-- Whether devices suports in-display fingerprint when screen is off -->
+    <bool name="config_supportScreenOffUdfps">true</bool>
 </resources>
