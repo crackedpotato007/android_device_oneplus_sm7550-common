@@ -68,7 +68,18 @@ fi
 
 function blob_fixup() {
     case "${1}" in
-        odm/etc/camera/CameraHWConfiguration.config)
+        odm/etc/camera/CameraHWConfiguration.config
+            sed -i "/SystemCamera = / s/1;/0;/g" "${2}"
+            sed -i "/SystemCamera = / s/0;$/1;/" "${2}"
+            ;;
+        odm/etc/dolby/multimedia_dolby_dax_default.xml)
+            sed -i "/volume-leveler-enable/ s/true/false/g" "${2}"
+            ;;
+        odm/etc/init/vendor-oplus-hardware-oplusSensor-V1-service.rc)
+            sed -i "/user/ s/system/root/g" "${2}"
+            ;;
+        odm/lib64/libwvhidl.so|odm/lib64/mediadrm/libwvdrmengine.so)
+>>>>>>> 6e8539f (sm8350-common: dolby: Forcefully disable volume-leveler)
             [ "$2" = "" ] && return 0
             sed -i "/SystemCamera = / s/1;/0;/g" "${2}"
             ;;
