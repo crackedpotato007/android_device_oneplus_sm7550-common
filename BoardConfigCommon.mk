@@ -151,7 +151,6 @@ TARGET_KERNEL_EXT_MODULES := \
 	qcom/opensource/datarmnet-ext/wlan \
 	qcom/opensource/securemsm-kernel \
 	qcom/opensource/display-drivers/msm \
-	qcom/opensource/eva-kernel \
 	qcom/opensource/video-driver \
 	qcom/opensource/graphics-kernel \
 	qcom/opensource/wlan/platform \
