@@ -43,17 +43,24 @@ bluetooth.hardware.power.tx_cur_ma=36
 bluetooth.profile.a2dp.source.enabled?=true
 bluetooth.profile.asha.central.enabled?=true
 bluetooth.profile.avrcp.target.enabled?=true
+bluetooth.profile.bap.broadcast.assist.enabled?=true
+bluetooth.profile.bap.broadcast.source.enabled?=true
+bluetooth.profile.bap.unicast.client.enabled?=true
 bluetooth.profile.bas.client.enabled?=true
+bluetooth.profile.ccp.server.enabled?=true
+bluetooth.profile.csip.set_coordinator.enabled?=true
 bluetooth.profile.gatt.enabled?=true
 bluetooth.profile.hfp.ag.enabled?=true
 bluetooth.profile.hid.device.enabled?=true
 bluetooth.profile.hid.host.enabled?=true
 bluetooth.profile.map.server.enabled?=true
+bluetooth.profile.mcp.server.enabled?=true
 bluetooth.profile.opp.enabled?=true
 bluetooth.profile.pan.nap.enabled?=true
 bluetooth.profile.pan.panu.enabled?=true
 bluetooth.profile.pbap.server.enabled?=true
 bluetooth.profile.sap.server.enabled?=true
+bluetooth.profile.vcp.controller.enabled?=true
 persist.bluetooth.a2dp_offload.disabled=false
 persist.vendor.bt.aac_frm_ctl.enabled=true
 persist.vendor.bt.aac_vbr_frm_ctl.enabled=true
@@ -63,10 +70,16 @@ persist.vendor.qcom.bluetooth.aptxadaptiver2_1_support=true
 ro.bluetooth.a2dp_offload.supported=true
 
 # Camera
+camera.disable_zsl_mode=1
 vendor.camera.aux.packageexcludelist=org.telegram.messenger,org.thunderdog.challegram,us.zoom.videomeetings
 
 # Chipset
 ro.soc.manufacturer=QTI
+
+# Crypto
+ro.crypto.metadata_init_delete_all_keys.enabled=true
+ro.hardware.keystore_desede=true
+vendor.gatekeeper.is_security_level_spu=0
 
 # DPM
 persist.vendor.dpm.vndr.idletimer.mode=default
@@ -108,6 +121,7 @@ persist.sys.fuse.passthrough.enable=true
 vendor.gatekeeper.disable_spu=true
 
 # Graphics
+debug.sf.auto_latch_unsignaled=0
 debug.sf.disable_client_composition_cache=1
 debug.sf.early.app.duration=13666666
 debug.sf.early.sf.duration=15666666
@@ -120,6 +134,7 @@ debug.sf.predict_hwc_composition_strategy=0
 debug.sf.latch_unsignaled=1
 debug.sf.late.app.duration=13666666
 debug.sf.late.sf.duration=15666666
+debug.sf.treat_170m_as_sRGB=1
 debug.sf.use_phase_offsets_as_durations=1
 ro.hardware.egl=adreno
 ro.hardware.vulkan=adreno
@@ -142,7 +157,7 @@ debug.c2.use_dmabufheaps=1
 debug.stagefright.c2inputsurface=-1
 
 # Netflix
-ro.netflix.bsp_rev=Q8550-36432-1
+ro.netflix.bsp_rev=Q7550-37828-1
 
 # Perf
 ro.vendor.extension_library=libqti-perfd-client.so
