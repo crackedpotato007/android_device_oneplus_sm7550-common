@@ -84,8 +84,8 @@ on fs
     mkdir /mnt/vendor/persist/secnvm 0770 system system
     mkdir /mnt/vendor/persist/data 0700 system system
 
-on property:ro.boot.product.vendor.sku=kalama
-    setprop ro.soc.model kalama
+on property:ro.boot.product.vendor.sku=crow
+    setprop ro.soc.model crow
 
 on post-fs
     # set RLIMIT_MEMLOCK to 64MB
@@ -155,11 +155,6 @@ service vendor.per_proxy /vendor/bin/pm-proxy
     class core
     user system
     group system
-    disabled
-
-service vendor.mdm_helper /vendor/bin/mdm_helper
-    class core
-    group system wakelock
     disabled
 
 service vendor.mdm_launcher /vendor/bin/sh /vendor/bin/init.mdm.sh

@@ -1,5 +1,5 @@
 #=============================================================================
-# Copyright (c) 2019-2022 Qualcomm Technologies, Inc.
+# Copyright (c) 2019-2023 Qualcomm Technologies, Inc.
 # All Rights Reserved.
 # Confidential and Proprietary - Qualcomm Technologies, Inc.
 #
@@ -30,15 +30,13 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #=============================================================================
 
+
 function configure_zram_parameters() {
 	MemTotalStr=`cat /proc/meminfo | grep MemTotal`
 	MemTotal=${MemTotalStr:16:8}
 
-	low_ram=`getprop ro.config.low_ram`
-
-	# Zram disk - 75% for Go and < 2GB devices .
-	# For >2GB Non-Go devices, size = 50% of RAM size. Limit the size to 4GB.
-	# And enable lz4 zram compression for Go targets.
+	# Zram disk - 75% for < 2GB devices .
+	# For >2GB Non-Go devices, size = 50% of RAM size. Max 4GB.
 
 	let RamSizeGB="( $MemTotal / 1048576 ) + 1"
 	diskSizeUnit=M
@@ -48,11 +46,12 @@ function configure_zram_parameters() {
 		let zRamSizeMB="( $RamSizeGB * 1024 ) / 2"
 	fi
 
-	# use MB avoid 32 bit overflow
 	if [ $zRamSizeMB -gt 4096 ]; then
 		let zRamSizeMB=4096
 	fi
 
+	# And enable lz4 zram compression for Go targets.
+	low_ram=`getprop ro.config.low_ram`
 	if [ "$low_ram" == "true" ]; then
 		echo lz4 > /sys/block/zram0/comp_algorithm
 	fi
@@ -63,8 +62,8 @@ function configure_zram_parameters() {
 		fi
 		echo "$zRamSizeMB""$diskSizeUnit" > /sys/block/zram0/disksize
 
-		# ZRAM may use more memory than it saves if SLAB_STORE_USER
-		# debug option is enabled.
+		# ZRAM may use more memory than it saves if
+		# SLAB_STORE_USER debug option is enabled.
 		if [ -e /sys/kernel/slab/zs_handle ]; then
 			echo 0 > /sys/kernel/slab/zs_handle/store_user
 		fi
@@ -76,6 +75,119 @@ function configure_zram_parameters() {
 		swapon /dev/block/zram0 -p 32758
 	fi
 }
+
+#ifdef OPLUS_FEATURE_ZRAM_OPT
+function oplus_configure_zram_parameters() {
+    MemTotalStr=`cat /proc/meminfo | grep MemTotal`
+    MemTotal=${MemTotalStr:16:8}
+
+    echo lz4 > /sys/block/zram0/comp_algorithm
+    echo 160 > /sys/module/zram_opt/parameters/vm_swappiness
+    echo 60 > /sys/module/zram_opt/parameters/direct_vm_swappiness
+    echo 0 > /proc/sys/vm/page-cluster
+
+    if [ -f /sys/block/zram0/disksize ]; then
+        if [ -f /sys/block/zram0/use_dedup ]; then
+            echo 1 > /sys/block/zram0/use_dedup
+        fi
+
+        if [ $MemTotal -le 524288 ]; then
+            #config 384MB zramsize with ramsize 512MB
+            echo 402653184 > /sys/block/zram0/disksize
+        elif [ $MemTotal -le 1048576 ]; then
+            #config 768MB zramsize with ramsize 1GB
+            echo 805306368 > /sys/block/zram0/disksize
+        elif [ $MemTotal -le 2097152 ]; then
+            #config 1GB+256MB zramsize with ramsize 2GB
+            echo lz4 > /sys/block/zram0/comp_algorithm
+            echo 1342177280 > /sys/block/zram0/disksize
+        elif [ $MemTotal -le 3145728 ]; then
+            #config 1GB+512MB zramsize with ramsize 3GB
+            echo 1610612736 > /sys/block/zram0/disksize
+        elif [ $MemTotal -le 4194304 ]; then
+            #config 2GB+512MB zramsize with ramsize 4GB
+            echo 2684354560 > /sys/block/zram0/disksize
+        elif [ $MemTotal -le 6291456 ]; then
+            #config 3GB zramsize with ramsize 6GB
+            echo 3221225472 > /sys/block/zram0/disksize
+        else
+            #config 4GB zramsize with ramsize >=8GB
+            echo 4294967296 > /sys/block/zram0/disksize
+        fi
+        mkswap /dev/block/zram0
+        swapon /dev/block/zram0 -p 32758
+    fi
+}
+
+function oplus_configure_hybridswap() {
+	kernel_version=`uname -r`
+
+	if [[ "$kernel_version" == "5.1"* ]]; then
+		echo 160 > /sys/module/oplus_bsp_zram_opt/parameters/vm_swappiness
+	else
+		echo 160 > /sys/module/zram_opt/parameters/vm_swappiness
+	fi
+
+	echo 0 > /proc/sys/vm/page-cluster
+
+	# FIXME: set system memcg pata in init.kernel.post_boot-lahaina.sh temporary
+	echo 500 > /dev/memcg/system/memory.app_score
+	echo systemserver > /dev/memcg/system/memory.name
+}
+
+#/*Add swappiness tunning parameters*/
+function oplus_configure_tuning_swappiness() {
+	local MemTotalStr=`cat /proc/meminfo | grep MemTotal`
+	local MemTotal=${MemTotalStr:16:8}
+	local para_path=/proc/sys/vm
+	local kernel_version=`uname -r`
+	local prjname=`getprop ro.boot.prjname`
+
+	chp_support=0
+	if [ -f "/proc/cont_pte_hugepage/stat" ]; then
+		chp_support=1
+	fi
+
+	if [[ "$kernel_version" == "5.1"* ]]; then
+		para_path=/sys/module/oplus_bsp_zram_opt/parameters
+	fi
+
+	if [ $MemTotal -le 6291456 ]; then
+		echo 0 > $para_path/vm_swappiness_threshold1
+		echo 0 > $para_path/swappiness_threshold1_size
+		echo 0 > $para_path/vm_swappiness_threshold2
+		echo 0 > $para_path/swappiness_threshold2_size
+	elif [ $MemTotal -le 8388608 ]; then
+		echo 70  > $para_path/vm_swappiness_threshold1
+		echo 2000 > $para_path/swappiness_threshold1_size
+		echo 90  > $para_path/vm_swappiness_threshold2
+		echo 1500 > $para_path/swappiness_threshold2_size
+	else
+		if [ $chp_support -eq 1 ] ; then
+			echo 60  > $para_path/vm_swappiness_threshold1
+			echo 80  > $para_path/vm_swappiness_threshold2
+		else
+			echo 70  > $para_path/vm_swappiness_threshold1
+			echo 90  > $para_path/vm_swappiness_threshold2
+		fi
+		echo 4096 > $para_path/swappiness_threshold1_size
+		echo 2048 > $para_path/swappiness_threshold2_size
+	fi
+	#xueying zram
+	if [ -n "$prjname" ]; then
+		case $prjname in
+			"22003"|"22203"|"22899")
+				echo 60 > $para_path/vm_swappiness_threshold1
+				echo 4096 > $para_path/swappiness_threshold1_size
+				echo 80 > $para_path/vm_swappiness_threshold2
+				echo 2048 > $para_path/swappiness_threshold2_size
+				;;
+			*)
+				;;
+		esac
+	fi
+}
+#endif /*OPLUS_FEATURE_ZRAM_OPT*/
 
 function configure_read_ahead_kb_values() {
 	MemTotalStr=`cat /proc/meminfo | grep MemTotal`
@@ -93,6 +205,9 @@ function configure_read_ahead_kb_values() {
 	else
 		ra_kb=512
 	fi
+	for dm in $dmpts; do
+		echo $ra_kb > $dm
+	done
 	if [ -f /sys/block/mmcblk0/bdi/read_ahead_kb ]; then
 		echo $ra_kb > /sys/block/mmcblk0/bdi/read_ahead_kb
 	fi
@@ -100,46 +215,43 @@ function configure_read_ahead_kb_values() {
 		echo $ra_kb > /sys/block/mmcblk0rpmb/bdi/read_ahead_kb
 	fi
 	for dm in $dmpts; do
-		if [ `cat $(dirname $dm)/../removable` -eq 0 ]; then
+		dm_dev=`echo $dm |cut -d/ -f4`
+		if [ "$dm_dev" = "" ]; then
+			is_erofs=""
+		else
+			is_erofs=`mount |grep erofs |grep "${dm_dev} "`
+		fi
+		if [ "$is_erofs" = "" ]; then
 			echo $ra_kb > $dm
+		else
+			echo 128 > $dm
 		fi
 	done
 }
 
 function configure_memory_parameters() {
-	# Set Memory parameters.
-	#
-	# Set per_process_reclaim tuning parameters
-	# All targets will use vmpressure range 50-70,
-	# All targets will use 512 pages swap size.
-	#
-	# Set Low memory killer minfree parameters
-	# 32 bit Non-Go, all memory configurations will use 15K series
-	# 32 bit Go, all memory configurations will use uLMK + Memcg
-	# 64 bit will use Google default LMK series.
-	#
-	# Set ALMK parameters (usually above the highest minfree values)
-	# vmpressure_file_min threshold is always set slightly higher
-	# than LMK minfree's last bin value for all targets. It is calculated as
-	# vmpressure_file_min = (last bin - second last bin ) + last bin
-	#
-	# Set allocstall_threshold to 0 for all targets.
-	#
-
-	configure_zram_parameters
+#ifdef OPLUS_FEATURE_ZRAM_OPT
+	# For vts test which has replace system.img
+	if [ -L "/product" ]; then
+		oplus_configure_zram_parameters
+	else
+		if [ -f /sys/block/zram0/hybridswap_enable ]; then
+			oplus_configure_hybridswap
+		else
+			oplus_configure_zram_parameters
+		fi
+	fi
+	oplus_configure_tuning_swappiness
+#else
+	# configure_zram_parameters
+#endif /*OPLUS_FEATURE_ZRAM_OPT*/
 	configure_read_ahead_kb_values
+
 	echo 100 > /proc/sys/vm/swappiness
 
 	# Disable periodic kcompactd wakeups. We do not use THP, so having many
 	# huge pages is not as necessary.
 	echo 0 > /proc/sys/vm/compaction_proactiveness
-
-	# With THP enabled, the kernel greatly increases min_free_kbytes over its
-	# default value. Disable THP to prevent resetting of min_free_kbytes
-	# value during online/offline pages.
-	if [ -f /sys/kernel/mm/transparent_hugepage/enabled ]; then
-		echo never > /sys/kernel/mm/transparent_hugepage/enabled
-	fi
 
 	MemTotalStr=`cat /proc/meminfo | grep MemTotal`
 	MemTotal=${MemTotalStr:16:8}
@@ -155,8 +267,27 @@ function configure_memory_parameters() {
 	else
 		echo 4096 > /proc/sys/vm/min_free_kbytes
 	fi
+
+	# configure boost pool
+	if [ $RamSizeGB -ge 10 ]; then
+		echo 128000 > /proc/boost_pool/camera_pages
+	fi
 }
 
+#Implementing this mechanism to jump to powersave governor if the script is not running
+#as it would be an indication for devs for debug purposes.
+fallback_setting()
+{
+        governor="powersave"
+        for i in `ls -d /sys/devices/system/cpu/cpufreq/policy[0-9]*`
+        do
+                if [ -f $i/scaling_governor ] ; then
+                        echo $governor > $i/scaling_governor
+                fi
+        done
+}
+
+# Set Memory parameters.
 configure_memory_parameters
 
 if [ -f /sys/devices/soc0/soc_id ]; then
@@ -164,10 +295,13 @@ if [ -f /sys/devices/soc0/soc_id ]; then
 fi
 
 case "$platformid" in
-	"519"|"536"|"600"|"601"|"603"|"604")
-		/vendor/bin/sh /vendor/bin/init.kernel.post_boot-kalama.sh
+	"608")
+		#Pass as an argument the max number of clusters supported on the SOC
+		/vendor/bin/sh /vendor/bin/init.kernel.post_boot-crow.sh 3
 		;;
 	*)
 		echo "***WARNING***: Invalid SoC ID\n\t No postboot settings applied!!\n"
+		fallback_setting
 		;;
 esac
+

@@ -9,6 +9,10 @@ on fs
     write /proc/touchpanel/tp_fw_update 0
 
 on boot
+    # Audio
+    chown system audio /dev/aw882xx_smartpa
+    chmod 0660 /dev/aw882xx_smartpa
+
     # Display
     chown system system /dev/oplus_display
     chown system system /sys/kernel/oplus_display/dimlayer_bl_en
@@ -31,26 +35,11 @@ on post-fs-data
     mkdir /data/vendor/mmdump/adsp 0777 system system
     chmod 0777 /data/vendor/mmdump/adsp
 
-on property:ro.boot.prjname=*
-    # Display
-    setprop ro.separate.soft ${ro.boot.prjname}
-
-on property:ro.boot.prjname=22811
-    setprop persist.vendor.display.pxlw.iris_feature 0x407f0780
-
-on property:ro.boot.prjname=22861
-    setprop persist.vendor.display.pxlw.iris_feature 0x400080
-
 on property:sys.boot_completed=1
     # Display
-    copy /vendor/etc/Oplus_QC_LTM_SM8550_2022_10_13.pfm /mnt/vendor/persist/data/pfm/licenses/Oplus_QC_LTM_SM8550_2022_10_13.pfm
-    chmod 0600 /mnt/vendor/persist/data/pfm/licenses/Oplus_QC_LTM_SM8550_2022_10_13.pfm
-    chown system system /mnt/vendor/persist/data/pfm/licenses/Oplus_QC_LTM_SM8550_2022_10_13.pfm
-
-    # Widevine
-    copy /vendor/etc/oplus_Widevine_licenses.pfm /mnt/vendor/persist/data/pfm/licenses/oplus_Widevine_licenses.pfm
-    chmod 0600 /mnt/vendor/persist/data/pfm/licenses/oplus_Widevine_licenses.pfm
-    chown system system /mnt/vendor/persist/data/pfm/licenses/oplus_Widevine_licenses.pfm
+    copy /vendor/etc/Oplus_QC_LTM_SM7550_2023_12_19.pfm /mnt/vendor/persist/data/pfm/licenses/Oplus_QC_LTM_SM7550_2023_12_19.pfm
+    chmod 0600 /mnt/vendor/persist/data/pfm/licenses/Oplus_QC_LTM_SM7550_2023_12_19.pfm
+    chown system system /mnt/vendor/persist/data/pfm/licenses/Oplus_QC_LTM_SM7550_2023_12_19.pfm
 
 on property:sys.usb.config=adb && property:sys.usb.configfs=1
     write /config/usb_gadget/g1/idVendor 0x22D9
