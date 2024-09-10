@@ -53,8 +53,8 @@ volume index from 0 to 100.
     </volume>
     <!-- #endif OPLUS_BUG_STABILITY -->
     <volume stream="AUDIO_STREAM_VOICE_CALL" deviceCategory="DEVICE_CATEGORY_SPEAKER">
-        <point>0,-3300</point>
-        <point>33,-2200</point>
+        <point>0,-3150</point>
+        <point>33,-2100</point>
         <point>66,-1100</point>
         <point>100,0</point>
     </volume>
@@ -68,9 +68,9 @@ volume index from 0 to 100.
     </volume>
 	#else OPLUS_BUG_STABILITY -->
      <volume stream="AUDIO_STREAM_VOICE_CALL" deviceCategory="DEVICE_CATEGORY_EARPIECE">
-        <point>0,-3900</point>
-        <point>33,-2600</point>
-        <point>66,-1300</point>
+        <point>0,-3700</point>
+        <point>33,-1800</point>
+        <point>66,-900</point>
         <point>100,0</point>
     </volume>
     <!-- #endif OPLUS_BUG_STABILITY -->
@@ -79,25 +79,64 @@ volume index from 0 to 100.
     <volume stream="AUDIO_STREAM_VOICE_CALL" deviceCategory="DEVICE_CATEGORY_HEARING_AID"
                                              ref="DEFAULT_HEARING_AID_VOLUME_CURVE"/>
     <volume stream="AUDIO_STREAM_SYSTEM" deviceCategory="DEVICE_CATEGORY_HEADSET">
-        <point>1,-3000</point>
-        <point>33,-2600</point>
-        <point>66,-2200</point>
-        <point>100,-1800</point>
+        <point>1,-6400</point>
+        <point>10,-2800</point>
+        <point>20,-2600</point>
+        <point>30,-2400</point>
+        <point>40,-2200</point>
+        <point>50,-2000</point>
+        <point>60,-1800</point>
+        <point>70,-1600</point>
+        <point>80,-1400</point>
+        <point>90,-1300</point>
+        <point>100,-1200</point>
+        <point>110,-1100</point>
+        <point>120,-1000</point>
+        <point>130,-900</point>
+        <point>140,-800</point>
+        <point>150,-700</point>
+        <point>160,-600</point>
     </volume>
 	<!-- #ifdef OPLUS_BUG_STABILITY
     //YaJun.Li@MM.AudioServer.Policy, 2019/08/21,modify for voip and a2dp volume -->
     <volume stream="AUDIO_STREAM_SYSTEM" deviceCategory="DEVICE_CATEGORY_A2DP">
-        <point>1,-3000</point>
-        <point>33,-2600</point>
-        <point>66,-2200</point>
-        <point>100,-1800</point>
+        <point>1,-6400</point>
+        <point>10,-2800</point>
+        <point>20,-2500</point>
+        <point>30,-2200</point>
+        <point>40,-1900</point>
+        <point>50,-1600</point>
+        <point>60,-1400</point>
+        <point>70,-1200</point>
+        <point>80,-1000</point>
+        <point>90,-800</point>
+        <point>100,-600</point>
+        <point>110,-400</point>
+        <point>120,-200</point>
+        <point>130,0</point>
+        <point>140,0</point>
+        <point>150,0</point>
+        <point>160,0</point>
     </volume>
     <!-- Qinhui.Gu@PSW.MM.AudioServer.Policy, 2019/12/11, add USB_HEADSET device category for tuning separately -->
     <volume stream="AUDIO_STREAM_SYSTEM" deviceCategory="DEVICE_CATEGORY_USB_HEADSET">
-        <point>1,-3000</point>
-        <point>33,-2600</point>
-        <point>66,-2200</point>
-        <point>100,-1800</point>
+        <point>1,-6400</point>
+        <point>10,-2800</point>
+        <point>20,-2600</point>
+        <point>30,-2400</point>
+        <point>40,-2200</point>
+        <point>50,-2000</point>
+        <point>60,-1800</point>
+        <point>70,-1600</point>
+        <point>80,-1400</point>
+        <point>90,-1300</point>
+        <point>100,-1200</point>
+        <point>110,-1100</point>
+        <point>120,-1000</point>
+        <point>130,-900</point>
+        <point>140,-800</point>
+        <point>150,-700</point>
+        <point>160,-600</point>
     </volume>
     <!-- #endif OPLUS_BUG_STABILITY -->
     <volume stream="AUDIO_STREAM_SYSTEM" deviceCategory="DEVICE_CATEGORY_SPEAKER"
@@ -122,10 +161,23 @@ volume index from 0 to 100.
     <volume stream="AUDIO_STREAM_RING" deviceCategory="DEVICE_CATEGORY_A2DP"
                                        ref="DEFAULT_DEVICE_CATEGORY_HEADSET_VOLUME_CURVE"/>
     <volume stream="AUDIO_STREAM_RING" deviceCategory="DEVICE_CATEGORY_SPEAKER">
-        <point>1,-4000</point>
-        <point>33,-2500</point>
-        <point>66,-1000</point>
-        <point>100,-100</point>
+        <point>1,-7000</point>
+        <point>10,-4600</point>
+        <point>20,-4300</point>
+        <point>30,-4000</point>
+        <point>40,-3700</point>
+        <point>50,-3400</point>
+        <point>60,-3100</point>
+        <point>70,-2800</point>
+        <point>80,-2500</point>
+        <point>90,-2200</point>
+        <point>100,-2000</point>
+        <point>110,-1700</point>
+        <point>120,-1400</point>
+        <point>130,-1100</point>
+        <point>140,-800</point>
+        <point>150,-500</point>
+        <point>160,-200</point>
     </volume>
     <!-- Qinhui.Gu@PSW.MM.AudioServer.Policy, 2019/12/11, add USB_HEADSET device category for tuning separately -->
     <volume stream="AUDIO_STREAM_RING" deviceCategory="DEVICE_CATEGORY_USB_HEADSET"
@@ -170,9 +222,9 @@ volume index from 0 to 100.
                                         ref="DEFAULT_DEVICE_CATEGORY_HEADSET_VOLUME_CURVE"/>
 	<volume stream="AUDIO_STREAM_ALARM" deviceCategory="DEVICE_CATEGORY_SPEAKER">
         <point>1,-4000</point>
-        <point>33,-2500</point>
-        <point>66,-1000</point>
-        <point>100,-100</point>
+        <point>33,-2910</point>
+        <point>66,-1620</point>
+        <point>100,-400</point>
     </volume>
     <!-- Qinhui.Gu@PSW.MM.AudioServer.Policy, 2019/12/11, add USB_HEADSET device category for tuning separately -->
     <volume stream="AUDIO_STREAM_ALARM" deviceCategory="DEVICE_CATEGORY_USB_HEADSET"
@@ -199,9 +251,9 @@ volume index from 0 to 100.
                                                ref="DEFAULT_DEVICE_CATEGORY_HEADSET_VOLUME_CURVE"/>
     <volume stream="AUDIO_STREAM_NOTIFICATION" deviceCategory="DEVICE_CATEGORY_SPEAKER">
         <point>1,-4300</point>
-        <point>33,-2500</point>
-        <point>66,-1000</point>
-        <point>100,-100</point>
+        <point>33,-3210</point>
+        <point>66,-1920</point>
+        <point>100,-300</point>
     </volume>
     <!-- Qinhui.Gu@PSW.MM.AudioServer.Policy, 2019/12/11, add USB_HEADSET device category for tuning separately -->
     <volume stream="AUDIO_STREAM_NOTIFICATION" deviceCategory="DEVICE_CATEGORY_USB_HEADSET"
