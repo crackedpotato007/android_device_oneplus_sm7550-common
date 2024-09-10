@@ -84,16 +84,8 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             grep -q "android.hardware.security.rkp-V3-ndk.so" "${2}" || ${PATCHELF} --add-needed "android.hardware.security.rkp-V3-ndk.so" "${2}"
             ;;
-        vendor/etc/libnfc-nci.conf)
+        vendor/etc/media_codecs_crow_v0.xml|vendor/etc/media_codecs_crow_v1.xml|vendor/etc/media_codecs_crow_v2.xml)
             [ "$2" = "" ] && return 0
-            sed -i "s/NFC_DEBUG_ENABLED=1/NFC_DEBUG_ENABLED=0/" "${2}"
-            ;;
-        vendor/etc/libnfc-nxp.conf)
-            [ "$2" = "" ] && return 0
-            sed -i "/NXPLOG_\w\+_LOGLEVEL/ s/0x03/0x02/" "${2}"
-            sed -i "s/NFC_DEBUG_ENABLED=1/NFC_DEBUG_ENABLED=0/" "${2}"
-            ;;
-        vendor/etc/media_codecs_kalama.xml|vendor/etc/media_codecs_kalama_vendor.xml)
             sed -Ei "/media_codecs_(google_audio|google_c2|google_telephony|google_video|vendor_audio)/d" "${2}"
             ;;
         vendor/etc/seccomp_policy/qwesd@2.0.policy)

@@ -384,6 +384,7 @@ PRODUCT_PACKAGES += \
     android.hardware.radio.network-V1-ndk.vendor \
     android.hardware.radio.sim-V1-ndk.vendor \
     android.hardware.radio.voice-V1-ndk.vendor \
+    android.hardware.secure_element@1.2.vendor \
     libprotobuf-cpp-full \
     libprotobuf-cpp-lite-3.9.1-vendorcompat \
     librmnetctl
@@ -498,7 +499,7 @@ PRODUCT_COPY_FILES += \
 
 # Vibrator
 PRODUCT_PACKAGES += \
-    vendor.qti.hardware.vibrator.service.oplus
+    android.hardware.vibrator-V2-ndk_platform.vendor
 
 PRODUCT_COPY_FILES += \
     vendor/qcom/opensource/vibrator/excluded-input-devices.xml:$(TARGET_COPY_OUT_VENDOR)/etc/excluded-input-devices.xml
@@ -507,6 +508,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.wifi-service \
     android.hardware.wifi.hostapd@1.0.vendor \
+    android.hardware.wifi.hostapd-V1-ndk.vendor \
+    android.hardware.wifi.supplicant-V1-ndk.vendor \
     hostapd \
     libwpa_client \
     libwifi-hal-ctrl \

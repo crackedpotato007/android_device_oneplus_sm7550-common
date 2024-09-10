@@ -48,6 +48,7 @@
     </hal>
     <hal format="aidl" optional="true">
         <name>vendor.oplus.hardware.communicationcenter</name>
+        <version>2</version>
         <interface>
             <name>IDmtpService</name>
             <instance>default</instance>
@@ -86,6 +87,7 @@
     </hal>
     <hal format="aidl" optional="true">
         <name>vendor.oplus.hardware.sendextcamcmd</name>
+        <version>2</version>
         <interface>
             <name>ISendExtCamCmdService</name>
             <instance>default</instance>
@@ -117,14 +119,6 @@
         <name>vendor.pixelworks.hardware.feature</name>
         <interface>
             <name>IIrisFeature</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="aidl" optional="true">
-        <name>vendor.oplus.hardware.touch</name>
-        <version>2</version>
-        <interface>
-            <name>IOplusTouch</name>
             <instance>default</instance>
         </interface>
     </hal>
