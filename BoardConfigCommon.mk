@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-COMMON_PATH := device/oneplus/sm8550-common
+COMMON_PATH := device/oneplus/sm7550-common
 
 # A/B
 AB_OTA_UPDATER := true
@@ -55,7 +55,7 @@ TARGET_PROVIDES_AUDIO_HAL := true
 TARGET_USES_QCOM_MM_AUDIO := true
 
 # Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := kalama
+TARGET_BOOTLOADER_BOARD_NAME := crow
 
 # Boot
 BOARD_BOOT_HEADER_VERSION := 4
@@ -116,7 +116,7 @@ TARGET_KERNEL_SOURCE := kernel/oneplus/sm8550
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
     vendor/kalama_GKI.config \
-    vendor/oplus/kalama_GKI.config \
+    vendor/oplus/crow_GKI.config \
     vendor/debugfs.config
 
 # Kernel modules
@@ -143,16 +143,15 @@ TARGET_KERNEL_EXT_MODULES := \
 	qcom/opensource/video-driver \
 	qcom/opensource/graphics-kernel \
 	qcom/opensource/wlan/platform \
-	qcom/opensource/wlan/qcacld-3.0/.kiwi_v2 \
-	qcom/opensource/bt-kernel \
-	nxp/opensource/driver
+	qcom/opensource/wlan/qcacld-3.0/.qca6750 \
+	qcom/opensource/bt-kernel
 
 # Lineage Health
 TARGET_HEALTH_CHARGING_CONTROL_CHARGING_PATH := /sys/class/oplus_chg/battery/mmi_charging_enable
 
 # Platform
 BOARD_USES_QCOM_HARDWARE := true
-TARGET_BOARD_PLATFORM := kalama
+TARGET_BOARD_PLATFORM := crow
 
 # Metadata
 BOARD_USES_METADATA_PARTITION := true
@@ -266,4 +265,4 @@ WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # Include the proprietary files BoardConfig.
-include vendor/oneplus/sm8550-common/BoardConfigVendor.mk
+include vendor/oneplus/sm7550-common/BoardConfigVendor.mk
