@@ -50,7 +50,6 @@ echo 1 1 1 1 15 15 15 15 > /proc/sys/walt/sched_util_busy_hyst_cpu_util
 # cpuset parameters
 echo 0-3 > /dev/cpuset/background/cpus
 echo 0-3 > /dev/cpuset/system-background/cpus
-echo 4-6 > /dev/cpuset/display/cpus
 
 # Turn off scheduler boost at the end
 echo 0 > /proc/sys/walt/sched_boost
@@ -59,10 +58,10 @@ echo 0 > /proc/sys/walt/sched_boost
 echo 0 > /proc/sys/kernel/sched_util_clamp_min_rt_default
 
 # configure governor settings for silver cluster
-echo "uag" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
-echo 0 > /sys/devices/system/cpu/cpufreq/policy0/uag/down_rate_limit_us
-echo 0 > /sys/devices/system/cpu/cpufreq/policy0/uag/up_rate_limit_us
-echo 1075200 > /sys/devices/system/cpu/cpufreq/policy0/uag/hispeed_freq
+echo "walt" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
+echo 0 > /sys/devices/system/cpu/cpufreq/policy0/walt/down_rate_limit_us
+echo 0 > /sys/devices/system/cpu/cpufreq/policy0/walt/up_rate_limit_us
+echo 1075200 > /sys/devices/system/cpu/cpufreq/policy0/walt/hispeed_freq
 echo 614400 > /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq
 echo 0 > /sys/devices/system/cpu/cpufreq/policy0/walt/pl
 
@@ -71,30 +70,26 @@ echo 1075200 0 0 0 0 0 0 0 > /proc/sys/walt/input_boost/input_boost_freq
 echo 120 > /proc/sys/walt/input_boost/input_boost_ms
 
 # configure governor settings for gold cluster
-echo "uag" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
-echo 0 > /sys/devices/system/cpu/cpufreq/policy4/uag/down_rate_limit_us
-echo 0 > /sys/devices/system/cpu/cpufreq/policy4/uag/up_rate_limit_us
-echo 1113600 > /sys/devices/system/cpu/cpufreq/policy4/uag/hispeed_freq
+echo "walt" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
+echo 0 > /sys/devices/system/cpu/cpufreq/policy4/walt/down_rate_limit_us
+echo 0 > /sys/devices/system/cpu/cpufreq/policy4/walt/up_rate_limit_us
+echo 1113600 > /sys/devices/system/cpu/cpufreq/policy4/walt/hispeed_freq
 echo 652800 > /sys/devices/system/cpu/cpufreq/policy4/scaling_min_freq
-echo 85 > /sys/devices/system/cpu/cpufreq/policy4/uag/hispeed_load
+echo 85 > /sys/devices/system/cpu/cpufreq/policy4/walt/hispeed_load
 echo -6 > /sys/devices/system/cpu/cpufreq/policy4/walt/boost
 echo 0 > /sys/devices/system/cpu/cpufreq/policy4/walt/rtg_boost_freq
 echo 0 > /sys/devices/system/cpu/cpufreq/policy4/walt/pl
-# target_loads
-echo "80" > /sys/devices/system/cpu/cpufreq/policy4/uag/target_loads
 
 # configure governor settings for gold+ cluster
-echo "uag" > /sys/devices/system/cpu/cpufreq/policy7/scaling_governor
-echo 0 > /sys/devices/system/cpu/cpufreq/policy7/uag/down_rate_limit_us
-echo 0 > /sys/devices/system/cpu/cpufreq/policy7/uag/up_rate_limit_us
-echo 1401600 > /sys/devices/system/cpu/cpufreq/policy7/uag/hispeed_freq
+echo "walt" > /sys/devices/system/cpu/cpufreq/policy7/scaling_governor
+echo 0 > /sys/devices/system/cpu/cpufreq/policy7/walt/down_rate_limit_us
+echo 0 > /sys/devices/system/cpu/cpufreq/policy7/walt/up_rate_limit_us
+echo 1401600 > /sys/devices/system/cpu/cpufreq/policy7/walt/hispeed_freq
 echo 652800 > /sys/devices/system/cpu/cpufreq/policy7/scaling_min_freq
-echo 85 > /sys/devices/system/cpu/cpufreq/policy7/uag/hispeed_load
+echo 85 > /sys/devices/system/cpu/cpufreq/policy7/walt/hispeed_load
 echo -6 > /sys/devices/system/cpu/cpufreq/policy7/walt/boost
 echo 0 > /sys/devices/system/cpu/cpufreq/policy7/walt/rtg_boost_freq
 echo 0 > /sys/devices/system/cpu/cpufreq/policy7/walt/pl
-# target_loads
-echo "80" > /sys/devices/system/cpu/cpufreq/policy7/uag/target_loads
 
 # colocation V3 settings
 echo 614400 > /sys/devices/system/cpu/cpufreq/policy0/walt/rtg_boost_freq
@@ -104,9 +99,6 @@ echo 20000000 > /proc/sys/walt/sched_task_unfilter_period
 
 # Enable conservative pl
 echo 1 > /proc/sys/walt/sched_conservative_pl
-
-# Limit kswapd in cpu0-6
-echo `ps -elf | grep -v grep | grep kswapd0 | awk '{print $2}'` > /dev/cpuset/kswapd-like/tasks
 
 # configure bus-dcvs
 bus_dcvs="/sys/devices/system/cpu/bus_dcvs"
@@ -226,4 +218,3 @@ esac
 
 
 setprop vendor.post_boot.parsed 1
-

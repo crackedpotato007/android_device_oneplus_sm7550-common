@@ -84,9 +84,6 @@ echo 20000000 > /proc/sys/walt/sched_task_unfilter_period
 # Enable conservative pl
 echo 1 > /proc/sys/walt/sched_conservative_pl
 
-# Limit kswapd in cpu0-6
-echo `ps -elf | grep -v grep | grep kswapd0 | awk '{print $2}'` > /dev/cpuset/kswapd-like/tasks
-
 # configure bus-dcvs
 bus_dcvs="/sys/devices/system/cpu/bus_dcvs"
 
@@ -205,4 +202,3 @@ esac
 
 
 setprop vendor.post_boot.parsed 1
-
