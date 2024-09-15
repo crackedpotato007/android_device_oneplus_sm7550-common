@@ -65,10 +65,3 @@ case "$variant" in
 	fallback_setting
 	;;
 esac
-
-#config fg and top cpu shares
-echo 5120 > /dev/cpuctl/top-app/cpu.shares
-echo 5120 > /dev/cpuctl/sstop/cpu.shares
-echo 4096 > /dev/cpuctl/foreground/cpu.shares
-echo 4096 > /dev/cpuctl/ssfg/cpu.shares
-
