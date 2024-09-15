@@ -87,8 +87,26 @@ sh_binary {
 }
 
 sh_binary {
-    name: "init.kernel.post_boot-kalama.sh",
-    src: "init.kernel.post_boot-kalama.sh",
+    name: "init.kernel.post_boot-crow_4_2_1.sh",
+    src: "init.kernel.post_boot-crow_4_2_1.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "init.kernel.post_boot-crow_4_3_0.sh",
+    src: "init.kernel.post_boot-crow_4_3_0.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "init.kernel.post_boot-crow_default_4_3_1.sh",
+    src: "init.kernel.post_boot-crow_default_4_3_1.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "init.kernel.post_boot-crow.sh",
+    src: "init.kernel.post_boot-crow.sh",
     vendor: true,
 }
 
