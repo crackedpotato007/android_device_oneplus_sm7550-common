@@ -865,10 +865,6 @@ vendor/bin/msm_irqbalance
 vendor/etc/msm_irqbalance.conf
 
 # Kernel
-vendor/bin/init.kernel.post_boot-crow_4_2_1.sh
-vendor/bin/init.kernel.post_boot-crow_4_3_0.sh
-vendor/bin/init.kernel.post_boot-crow_default_4_3_1.sh
-vendor/bin/init.kernel.post_boot-crow.sh
 vendor/bin/init.qcom.class_core.sh
 vendor/bin/init.qcom.post_boot.sh
 vendor/bin/init.qti.kernel.sh

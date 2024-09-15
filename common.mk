@@ -250,6 +250,10 @@ PRODUCT_PACKAGES += \
     fstab.default.vendor_ramdisk \
     init.class_main.sh \
     init.kernel.post_boot.sh \
+    init.kernel.post_boot-crow_4_2_1.sh \
+    init.kernel.post_boot-crow_4_3_0.sh \
+    init.kernel.post_boot-crow_default_4_3_1.sh \
+    init.kernel.post_boot-crow.sh \
     init.oplus.rc \
     init.qcom.early_boot.sh \
     init.qcom.rc \
