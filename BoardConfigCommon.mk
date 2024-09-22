@@ -76,9 +76,9 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_RAMDISK_USE_LZ4 := true
 
 # DTB / DTBO
-BOARD_INCLUDE_DTB_IN_BOOTIMG := true
-BOARD_USES_QCOM_MERGE_DTBS_SCRIPT := true
-TARGET_NEEDS_DTBOIMAGE := true
+TARGET_PREBUILT_DTB := device/oneplus/benz-kernel/dtb.img
+BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
+BOARD_PREBUILT_DTBOIMAGE := device/oneplus/benz-kernel/dtbo.img
 
 # Properties
 TARGET_ODM_PROP += $(COMMON_PATH)/odm.prop
