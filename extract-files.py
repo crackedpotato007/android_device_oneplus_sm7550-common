@@ -66,6 +66,9 @@ blob_fixups: blob_fixups_user_type = {
         .add_needed('libgui_shim.so'),
     'system_ext/lib64/libwfdservice.so': blob_fixup()
         .add_needed("libaudioclient_shim.so")
+          .replace_needed(
+            'android.media.audio.common.types-V2-cpp.so',
+            'android.media.audio.common.types-V4-cpp.so',
 ),
     'odm/bin/hw/vendor-oplus-hardware-performance-V1-service': blob_fixup()
         .add_needed('libbase_shim.so')
