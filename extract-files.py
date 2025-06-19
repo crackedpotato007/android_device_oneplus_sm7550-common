@@ -64,6 +64,8 @@ blob_fixups: blob_fixups_user_type = {
 
     'system_ext/lib64/libwfdmmsrc_system.so': blob_fixup()
         .add_needed('libgui_shim.so'),
+    'system_ext/lib64/libwfdservice.so': blob_fixup()
+        .add_needed("libaudioclient_shim.so")
 ),
     'odm/bin/hw/vendor-oplus-hardware-performance-V1-service': blob_fixup()
         .add_needed('libbase_shim.so')
