@@ -61,6 +61,10 @@ lib_fixups: lib_fixups_user_type = {
 }
 
 blob_fixups: blob_fixups_user_type = {
+
+    'system_ext/lib64/libwfdmmsrc_system.so': blob_fixup()
+        .add_needed('libgui_shim.so'),
+),
     'odm/bin/hw/vendor-oplus-hardware-performance-V1-service': blob_fixup()
         .add_needed('libbase_shim.so')
         .add_needed('libprocessgroup_shim.so'),
