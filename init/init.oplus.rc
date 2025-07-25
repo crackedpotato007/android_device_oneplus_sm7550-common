@@ -11,6 +11,10 @@ on fs
     write /proc/touchpanel/tp_fw_update 0
 
 on boot
+    # Audio
+    chown system audio /dev/aw882xx_smartpa
+    chmod 0660 /dev/aw882xx_smartpa
+
     # Display
     chmod 0000 /sys/kernel/oplus_display/hbm
 
