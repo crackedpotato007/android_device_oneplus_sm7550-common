@@ -1582,13 +1582,6 @@ vendor/firmware/evass.mdt
 vendor/lib64/libfastcvdsp_stub.so
 vendor/lib64/libfastcvopt.so
 
-# Fingerprint
-odm/bin/hw/vendor.oplus.hardware.biometrics.fingerprint@2.1-service_uff
-odm/etc/init/vendor.oplus.hardware.biometrics.fingerprint@2.1-service.rc
-odm/etc/vintf/manifest/manifest_oplus_fingerprint_aidl_v2.xml
-odm/lib64/libolc_vnd.so
-odm/lib64/vendor.oplus.hardware.olc2-V2-ndk.so
-
 # Fingerprint firmware
 odm/vendor/firmware/uff_jv.b00
 odm/vendor/firmware/uff_jv.b01
@@ -2509,9 +2502,6 @@ odm/firmware/ufs/SKhynix-HN8T05DEHKX073.bin
 odm/firmware/ufs/SKhynix-HN8T15DEHKX075.bin
 odm/firmware/ufs/move_target_ufs_fw_to_oplusreserve1.sh
 odm/firmware/ufs/ufs_version_config.xml
-
-# Vibrator
-vendor/lib64/libaacvibrator.so
 
 # Trusted User Interface
 vendor/lib64/libcpion.so
