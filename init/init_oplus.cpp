@@ -25,18 +25,8 @@ void vendor_process_bootenv() {
     auto prjname = std::stoi(GetProperty("ro.boot.prjname", "0"));
 
     switch (hw_region_id) {
-        case 21: // CN_IN
-            if (prjname == 22811) { // CN
-                InitPropertySet("ro.boot.hardware.revision", "CN");
-            } else if (prjname == 22861) { // IN
-                InitPropertySet("ro.boot.hardware.revision", "IN");
-            }
-            break;
-        case 22: // EU
-            InitPropertySet("ro.boot.hardware.revision", "EU");
-            break;
-        case 23: // NA
-            InitPropertySet("ro.boot.hardware.revision", "NA");
+        case 2:
+            InitPropertySet("ro.boot.hardware.revision", "IN");
             break;
         default:
             LOG(ERROR) << "Unexpected region ID: " << hw_region_id;
